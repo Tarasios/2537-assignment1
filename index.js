@@ -149,6 +149,8 @@ app.post('/submitUser', async (req,res) => {
 
 //User Login
 app.get('/login', (req,res) => {
+    var badlogin = req.query.badlogin;
+
     var html = `
     log in
     <form action='/loggingin' method='post'>
@@ -157,6 +159,9 @@ app.get('/login', (req,res) => {
     <button>Submit</button>
     </form>
     `;
+    if(badlogin == 1) {
+        html += `<h3>Incorrect username or password</h3>`;
+    }
     res.send(html);
 });
 
@@ -192,8 +197,7 @@ app.post('/loggingin', async (req,res) => {
 		return;
 	}
 	else {
-		console.log("incorrect password");
-		res.redirect("/login");
+		res.redirect("/login?badlogin=1");
 		return;
 	}
 });
